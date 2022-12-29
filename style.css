@@ -142,10 +142,10 @@ buttonfire {
     background: #fff;
     border-radius: 999px;
 }
-buttonfire:focus {
+buttonfire:hover {
     animation: burn 1000ms ease-out forwards;
 }
-buttonfire:focus::before {
+buttonfire:hover::before {
     content: '';
     position: absolute;
     left: 40px;
@@ -155,7 +155,7 @@ buttonfire:focus::before {
     border-radius: 100%;
     animation: flare 1000ms ease-out forwards;
 }
-buttonfire:focus::after {
+buttonfire:hover::after {
     content: '';
     position: absolute;
     right: 40px;
