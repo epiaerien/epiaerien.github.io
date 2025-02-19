@@ -132,8 +132,8 @@
 <body>
     <div class="container">
         <h1>Bravo Malo !</h1>
-        <p>Félicitations, jeune scientifique ! Tu as brillamment résolu l'énigme et découvert le secret du Professeur.</p>
-        <p>Grâce à ton intelligence, ta persévérance et ton esprit scientifique, tu as prouvé que tu as l'étoffe d'un véritable chercheur !</p>
+        <p>Félicitations ! Tu as brillamment résolu les énigmes.</p>
+        <p>Grâce à ton intelligence, ta persévérance et ton esprit, tu as prouvé que tu as l'étoffe d'un véritable chercheur !</p>
         <p>Continue d'être curieux et de résoudre des mystères. Le monde de la science a besoin de jeunes esprits brillants comme toi !</p>
     </div>
 
@@ -235,7 +235,7 @@
                 ctx.fillRect(part.x * gridSize, part.y * gridSize, gridSize - 2, gridSize - 2);
             });
 
-            ctx.fillStyle = '#FFC107';
+            ctx.fillStyle = 'black';
             ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
             ctx.font = '12px Arial';
             ctx.fillText('⚛️', food.x * gridSize + 2, (food.y + 1) * gridSize - 2);
