@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Calcul Mental</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+        .score {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+        input[type="number"] {
+            padding: 10px;
+            font-size: 18px;
+            width: 100px;
+            margin: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Jeu de Calcul Mental</h1>
+        <div id="question" style="font-size: 24px;"></div>
+        <input type="number" id="reponse" placeholder="Votre réponse">
+        <button onclick="verifierReponse()">Vérifier</button>
+        <div class="score">Score: <span id="score">0</span></div>
+    </div>
+
+    <script>
+        let nombreCorrect = 0;
+        let score = 0;
+        
+        function genererQuestion() {
+            const operation = Math.random() < 0.5 ? '+' : '-';
+            const nombre1 = Math.floor(Math.random() * 100);
+            const nombre2 = Math.floor(Math.random() * 100);
+            
+            if (operation === '+') {
+                nombreCorrect = nombre1 + nombre2;
+            } else {
+                nombreCorrect = nombre1 - nombre2;
+            }
+            
+            document.getElementById('question').textContent = 
+                `${nombre1} ${operation} ${nombre2} = ?`;
+        }
+
+        function verifierReponse() {
+            const reponseUtilisateur = parseInt(document.getElementById('reponse').value);
+            
+            if (reponseUtilisateur === nombreCorrect) {
+                score += 10;
+                alert('Correct! +10 points');
+            } else {
+                alert('Incorrect! La bonne réponse était ' + nombreCorrect);
+            }
+            
+            document.getElementById('score').textContent = score;
+            document.getElementById('reponse').value = '';
+            genererQuestion();
+        }
+
+        // Démarrer le jeu
+        genererQuestion();
+    </script>
+</body>
+</html>
