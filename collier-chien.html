@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vous avez trouvé Sam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FDF1F1;
+    --ink:#3A2A30;
+    --ink-soft:#7A5C64;
+    --brass:#E8A5B8;
+    --brass-dark:#C97A93;
+    --forest:#D8768F;
+    --forest-dark:#B75A75;
+    --card:#FFFAFA;
+    --line:rgba(183,90,117,0.16);
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+  }
+
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 20px 48px;
+    background-image:
+      radial-gradient(circle at 18% 12%, rgba(216,118,143,0.08), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(232,165,184,0.12), transparent 45%);
+  }
+
+  .wrap{
+    width:100%;
+    max-width:420px;
+  }
+
+  /* ---- La médaille (tag) ---- */
+  .tag{
+    position:relative;
+    background:var(--card);
+    border-radius:28px;
+    padding:44px 28px 34px;
+    text-align:center;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.6) inset,
+      0 18px 40px -18px rgba(32,36,31,0.35),
+      0 2px 0 var(--line);
+    border:1px solid var(--line);
+  }
+
+  .ring{
+    position:absolute;
+    top:-18px;
+    left:50%;
+    transform:translateX(-50%);
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:var(--card);
+    border:6px solid var(--brass);
+    box-shadow:0 4px 10px rgba(32,36,31,0.25);
+  }
+
+  .ring::after{
+    content:"";
+    position:absolute;
+    inset:9px;
+    border-radius:50%;
+    background:var(--paper);
+  }
+
+  .photo{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    margin:6px auto 18px;
+    object-fit:cover;
+    object-position:50% 30%;
+    border:4px solid var(--brass);
+    background:var(--paper);
+    display:block;
+  }
+
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--brass-dark);
+    font-weight:600;
+    margin:0 0 6px;
+  }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:34px;
+    line-height:1.1;
+    margin:0 0 14px;
+    color:var(--forest-dark);
+  }
+
+  .message{
+    font-size:15.5px;
+    line-height:1.6;
+    color:var(--ink-soft);
+    margin:0 0 28px;
+  }
+
+  .cta{
+    display:block;
+    width:100%;
+    padding:16px 20px;
+    background:var(--forest);
+    color:#F6F2E9;
+    text-decoration:none;
+    font-weight:600;
+    font-size:16px;
+    border-radius:14px;
+    box-shadow:0 10px 22px -10px rgba(35,51,41,0.55);
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .cta:active{
+    transform:scale(0.98);
+    box-shadow:0 6px 14px -8px rgba(35,51,41,0.5);
+  }
+
+  .cta-sub{
+    display:block;
+    font-size:12.5px;
+    font-weight:400;
+    opacity:0.85;
+    margin-top:3px;
+  }
+
+  .cta-secondary{
+    display:block;
+    width:100%;
+    padding:14px 20px;
+    background:transparent;
+    color:var(--forest-dark);
+    text-decoration:none;
+    font-weight:600;
+    font-size:15px;
+    font-family:inherit;
+    border-radius:14px;
+    border:1.5px solid var(--brass);
+    cursor:pointer;
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+
+  .cta-secondary:active{
+    transform:scale(0.98);
+    background:rgba(232,165,184,0.12);
+  }
+
+  .cta-secondary .cta-sub{
+    color:var(--ink-soft);
+    opacity:1;
+  }
+
+  .form-embed{
+    max-height:0;
+    overflow:hidden;
+    border-radius:14px;
+    transition:max-height 0.3s ease, margin-top 0.3s ease;
+  }
+
+  .form-embed.open{
+    max-height:520px;
+    margin-top:16px;
+  }
+
+  .form-embed iframe{
+    display:block;
+    width:100%;
+    height:500px;
+    border:1.5px solid var(--line);
+    border-radius:14px;
+    background:var(--card);
+  }
+
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:26px 0 18px;
+    color:var(--ink-soft);
+    opacity:0.6;
+  }
+  .divider::before, .divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+  .divider span{
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+
+  .call-option{
+    font-size:14px;
+    color:var(--ink-soft);
+    line-height:1.5;
+    margin:0;
+  }
+  .call-option a{
+    color:var(--forest-dark);
+    font-weight:600;
+    text-decoration:none;
+    border-bottom:1.5px solid var(--brass);
+  }
+
+  footer{
+    text-align:center;
+    margin-top:22px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    opacity:0.75;
+  }
+
+  .paw{
+    display:inline-block;
+    width:14px;
+    height:14px;
+    margin-right:4px;
+    vertical-align:-2px;
+    fill:var(--brass-dark);
+  }
+
+  @media (max-width:360px){
+    h1{font-size:29px;}
+    .tag{padding:40px 20px 28px;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+    <div class="tag">
+      <div class="ring"></div>
+
+      <!-- Remplacer par une photo réelle du chien (même dossier, ou lien direct) -->
+      <img class="photo" src="chien.jpg" alt="Photo de Sam" onerror="this.style.display='none'">
+
+      <p class="eyebrow">Vous m'avez retrouvée</p>
+      <h1>Je m'appelle Sam</h1>
+      <p class="message">
+        Merci infiniment de vous être arrêté. Ma famille me cherche —
+        remplissez ce court formulaire pour qu'on puisse vous rappeler
+        au plus vite et venir me récupérer.
+      </p>
+
+      <!-- Remplacer par le numéro masqué (appli type OnOff/Sonetel, ou SIM prépayée avec renvoi d'appel) -->
+      <a class="cta" href="tel:+33600000000">
+        Appeler maintenant
+        <span class="cta-sub">06 00 00 00 00</span>
+      </a>
+
+      <div class="divider"><span>ou</span></div>
+
+      <button type="button" class="cta-secondary" id="toggleForm">
+        Laisser mes coordonnées
+        <span class="cta-sub">Je vous rappelle dès que possible</span>
+      </button>
+
+      <!--
+        Pour obtenir l'URL d'intégration :
+        Dans Google Forms → bouton "Envoyer" → onglet <> (intégrer)
+        → copier l'URL présente dans le code (celle qui finit par "?embedded=true")
+        et la coller ci-dessous dans src="..."
+      -->
+      <div class="form-embed" id="formEmbed">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSfDE61BxISmNDKzykHG96HJwkgYYacCWsjW9ni1-aY7he6NwA/viewform?embedded=true"
+          width="100%"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0">
+          Chargement…
+        </iframe>
+      </div>
+    </div>
+
+    <footer>
+      <svg class="paw" viewBox="0 0 24 24"><path d="M12 14.5c-2.6 0-5.2 2.1-5.2 4.7 0 1.5 1.2 2.3 2.7 2.3.9 0 1.7-.3 2.5-.3s1.6.3 2.5.3c1.5 0 2.7-.8 2.7-2.3 0-2.6-2.6-4.7-5.2-4.7zM6.3 12.8c1.1 0 2-1.2 2-2.7s-.9-2.7-2-2.7-2 1.2-2 2.7.9 2.7 2 2.7zm3.4-4.3c1.1 0 2-1.3 2-2.9S10.8 3 9.7 3s-2 1.3-2 2.9 1 2.6 2 2.6zm5.5 0c1 0 2-1.1 2-2.6S16.2 3 15.2 3s-2 1.3-2 2.9 1 2.6 2 2.5zm3.5 4.3c1.1 0 2-1.2 2-2.7s-.9-2.7-2-2.7-2 1.2-2 2.7.9 2.7 2 2.7z"/></svg>
+      Retrouvée grâce à ce petit tag — merci d'être une bonne personne.
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('toggleForm').addEventListener('click', function(){
+      var embed = document.getElementById('formEmbed');
+      var isOpen = embed.classList.toggle('open');
+      this.querySelector('.cta-sub').textContent = isOpen
+        ? 'Remplissez le formulaire ci-dessous'
+        : 'Je vous rappelle dès que possible';
+    });
+  </script>
+
+</body>
+</html>
