@@ -334,7 +334,7 @@
       </a>
 
       <a class="cta-secondary" href="#" id="callBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;">
-        Appeler : <span id="callNumber">••••••••••</span>
+        Appeler — <span id="callNumber">••••••••••</span>
       </a>
 
       <div class="divider"><span>ou</span></div>
@@ -381,9 +381,10 @@
     // Le numéro n'apparaît jamais en clair dans le code source (encodé en base64),
     // il n'est reconstruit qu'au moment où la page s'affiche dans le navigateur.
     (function(){
-      var encoded = "KzMzNjc2NTQzOTE0"; // "+33676543914" encodé
-      var raw = atob(encoded); // "+33676543914"
-      var display = "0" + raw.slice(3).replace(/(\d{2})(?=\d)/g, "$1 ").trim();
+      var encoded = "KzMzNzg2NzY0MjQx"; // "+33786764241" encodé
+      var raw = atob(encoded); // "+33786764241"
+      var local = "0" + raw.slice(3); // "0786764241"
+      var display = local.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
       var btn = document.getElementById('callBtn');
       btn.href = "tel:" + raw;
       document.getElementById('callNumber').textContent = display;
