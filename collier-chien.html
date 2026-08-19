@@ -304,6 +304,50 @@
     fill:var(--brass-dark);
   }
 
+  .language-switcher{
+    position:absolute;
+    top:16px;
+    right:16px;
+    display:flex;
+    gap:6px;
+    padding:4px;
+    background:rgba(253,241,241,0.9);
+    border:1px solid var(--line);
+    border-radius:999px;
+    box-shadow:0 4px 12px rgba(58,42,48,0.08);
+  }
+
+  .lang-btn{
+    width:34px;
+    height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    border:0;
+    border-radius:999px;
+    background:transparent;
+    cursor:pointer;
+    font-size:18px;
+    line-height:1;
+    opacity:0.55;
+    transition:background 0.15s ease, opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .lang-btn:hover{
+    opacity:0.85;
+  }
+
+  .lang-btn:active{
+    transform:scale(0.94);
+  }
+
+  .lang-btn.active{
+    background:var(--card);
+    opacity:1;
+    box-shadow:0 2px 8px rgba(58,42,48,0.10);
+  }
+
   @media (max-width:360px){
     h1{font-size:29px;}
     .tag{padding:40px 20px 28px;}
@@ -316,54 +360,59 @@
     <div class="tag">
       <div class="ring"></div>
 
-      <!-- Remplacer par une photo réelle du chien (même dossier, ou lien direct) -->
-      <img class="photo" src="chien.jpg" alt="Photo de Sam" onerror="this.style.display='none'">
+      <div class="language-switcher" aria-label="Language selector">
+        <button type="button" class="lang-btn active" data-lang="fr" aria-label="Français" title="Français">🇫🇷</button>
+        <button type="button" class="lang-btn" data-lang="en" aria-label="English" title="English">🇬🇧</button>
+      </div>
 
-      <p class="eyebrow">Vous m'avez retrouvée</p>
-      <h1>Je m'appelle Sam</h1>
-      <p class="message">
-Merci beaucoup de vous être arrêté. Ma famille me cherche et doit sûrement être inquiète. Pouvez-vous remplir ce petit formulaire pour qu’elle puisse vous contacter rapidement et venir me récupérer ? Ou appelez ma maman directement 
+      <!-- Remplacer par une photo réelle du chien (même dossier, ou lien direct) -->
+      <img class="photo" id="dogPhoto" src="chien.jpg" alt="Photo de Sam" onerror="this.style.display='none'">
+
+      <p class="eyebrow" data-i18n="eyebrow">Vous m'avez retrouvée</p>
+      <h1 data-i18n="title">Je m'appelle Sam</h1>
+      <p class="message" data-i18n="message">
+        Merci beaucoup de vous être arrêté. Ma famille me cherche et doit sûrement être inquiète. Pouvez-vous remplir ce petit formulaire pour qu’elle puisse vous contacter rapidement et venir me récupérer ? Vous pouvez aussi appeler ma maman directement.
       </p>
 
       <!-- Remplacer par ton lien de contact Signal (Paramètres → Profil → Nom d'utilisateur → obtenir le lien) -->
       <a class="cta" href="https://signal.me/#eu/WeJwq9wACStwETGtTVeomDzjXsHrWHm7Clym9CKMwP1vToIT0BJAfaulC0uOW8OC" target="_blank" rel="noopener">
-        Écrire sur Signal
-        <span class="cta-sub">Réponse rapide, numéro jamais visible</span>
+        <span data-i18n="signal">Écrire sur Signal</span>
+        <span class="cta-sub" data-i18n="signalSub">Réponse rapide, numéro jamais visible</span>
       </a>
 
       <a class="cta-secondary" href="#" id="callBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;">
         <span id="callNumber">••••••••••</span>
       </a>
 
-      <div class="divider"><span>ou</span></div>
+      <div class="divider"><span data-i18n="or">ou</span></div>
 
       <button type="button" class="cta-secondary" id="toggleForm">
-        Laisser mes coordonnées
-        <span class="cta-sub">Je vous rappelle dès que possible</span>
+        <span data-i18n="leaveDetails">Laisser mes coordonnées</span>
+        <span class="cta-sub" id="formToggleSub">Je vous rappelle dès que possible</span>
       </button>
 
       <!-- Clé Web3Forms : va sur web3forms.com → "Get Access Key" → colle-la ci-dessous -->
       <div class="form-embed" id="formEmbed">
         <form id="contactForm" class="mini-form">
           <input type="hidden" name="access_key" value="6322d9ea-98a8-4d64-b4d9-15817e769f2e">
-          <input type="hidden" name="subject" value="Quelqu'un a retrouvé Sam !">
+          <input type="hidden" id="formSubject" name="subject" value="Quelqu'un a retrouvé Sam !">
 
           <label class="field">
-            <span>Votre prénom</span>
-            <input type="text" name="name" required placeholder="Ex. Camille">
+            <span data-i18n="nameLabel">Votre prénom</span>
+            <input type="text" name="name" required placeholder="Ex. Camille" data-i18n-placeholder="namePlaceholder">
           </label>
 
           <label class="field">
-            <span>Votre numéro de téléphone</span>
-            <input type="tel" name="phone" required placeholder="06 12 34 56 78">
+            <span data-i18n="phoneLabel">Votre numéro de téléphone</span>
+            <input type="tel" name="phone" required placeholder="06 12 34 56 78" data-i18n-placeholder="phonePlaceholder">
           </label>
 
           <label class="field">
-            <span>Message (optionnel)</span>
-            <textarea name="message" rows="2" placeholder="Où l'avez-vous trouvée ?"></textarea>
+            <span data-i18n="messageLabel">Message (optionnel)</span>
+            <textarea name="message" rows="2" placeholder="Où l'avez-vous trouvée ?" data-i18n-placeholder="messagePlaceholder"></textarea>
           </label>
 
-          <button type="submit" class="submit-btn">Envoyer</button>
+          <button type="submit" class="submit-btn" data-i18n="send">Envoyer</button>
           <p class="form-status" id="formStatus"></p>
         </form>
       </div>
@@ -371,17 +420,109 @@ Merci beaucoup de vous être arrêté. Ma famille me cherche et doit sûrement �
 
     <footer>
       <svg class="paw" viewBox="0 0 24 24"><path d="M12 14.5c-2.6 0-5.2 2.1-5.2 4.7 0 1.5 1.2 2.3 2.7 2.3.9 0 1.7-.3 2.5-.3s1.6.3 2.5.3c1.5 0 2.7-.8 2.7-2.3 0-2.6-2.6-4.7-5.2-4.7zM6.3 12.8c1.1 0 2-1.2 2-2.7s-.9-2.7-2-2.7-2 1.2-2 2.7.9 2.7 2 2.7zm3.4-4.3c1.1 0 2-1.3 2-2.9S10.8 3 9.7 3s-2 1.3-2 2.9 1 2.6 2 2.6zm5.5 0c1 0 2-1.1 2-2.6S16.2 3 15.2 3s-2 1.3-2 2.9 1 2.6 2 2.5zm3.5 4.3c1.1 0 2-1.2 2-2.7s-.9-2.7-2-2.7-2 1.2-2 2.7.9 2.7 2 2.7z"/></svg>
-      Retrouvée grâce à ce petit tag. Merci d'être une bonne personne.
+      <span data-i18n="footer">Retrouvée grâce à ce petit tag. Merci d'être une bonne personne.</span>
     </footer>
   </div>
 
   <script>
-    // Le numéro n'apparaît jamais en clair dans le code source (encodé en base64),
-    // il n'est reconstruit qu'au moment où la page s'affiche dans le navigateur.
+    var currentLang = 'fr';
+
+    var translations = {
+      fr: {
+        pageTitle: 'Vous avez trouvé Sam',
+        photoAlt: 'Photo de Sam',
+        eyebrow: "Vous m'avez retrouvée",
+        title: "Je m'appelle Sam",
+        message: "Merci beaucoup de vous être arrêté. Ma famille me cherche et doit sûrement être inquiète. Pouvez-vous remplir ce petit formulaire pour qu’elle puisse vous contacter rapidement et venir me récupérer ? Vous pouvez aussi appeler ma maman directement.",
+        signal: 'Écrire sur Signal',
+        signalSub: 'Réponse rapide, numéro jamais visible',
+        or: 'ou',
+        leaveDetails: 'Laisser mes coordonnées',
+        formClosed: 'Je vous rappelle dès que possible',
+        formOpen: 'Remplissez le formulaire ci-dessous',
+        nameLabel: 'Votre prénom',
+        namePlaceholder: 'Ex. Camille',
+        phoneLabel: 'Votre numéro de téléphone',
+        phonePlaceholder: '06 12 34 56 78',
+        messageLabel: 'Message (optionnel)',
+        messagePlaceholder: "Où l'avez-vous trouvée ?",
+        send: 'Envoyer',
+        sending: 'Envoi en cours…',
+        success: 'Merci ! Je vous recontacte très vite 🐾',
+        error: "Oups, réessayez ou contactez-moi directement.",
+        subject: "Quelqu'un a retrouvé Sam !",
+        footer: "Retrouvée grâce à ce petit tag. Merci d'être une bonne personne."
+      },
+      en: {
+        pageTitle: 'You found Sam',
+        photoAlt: 'Photo of Sam',
+        eyebrow: 'You found me',
+        title: "My name is Sam",
+        message: "Thank you so much for stopping. My family is looking for me and is probably very worried. Please fill in this short form so they can contact you quickly and come pick me up. You can also call my mum directly.",
+        signal: 'Message on Signal',
+        signalSub: 'Quick reply, your number stays private',
+        or: 'or',
+        leaveDetails: 'Leave my contact details',
+        formClosed: "I'll call you back as soon as possible",
+        formOpen: 'Please fill in the form below',
+        nameLabel: 'Your first name',
+        namePlaceholder: 'e.g. Camille',
+        phoneLabel: 'Your phone number',
+        phonePlaceholder: '+44 7700 900000',
+        messageLabel: 'Message (optional)',
+        messagePlaceholder: 'Where did you find her?',
+        send: 'Send',
+        sending: 'Sending…',
+        success: "Thank you! I'll get back to you very soon 🐾",
+        error: 'Oops, please try again or contact me directly.',
+        subject: 'Someone found Sam!',
+        footer: 'Found thanks to this little tag. Thank you for being kind.'
+      }
+    };
+
+    function setLanguage(lang){
+      if (!translations[lang]) return;
+      currentLang = lang;
+      var t = translations[lang];
+
+      document.documentElement.lang = lang;
+      document.title = t.pageTitle;
+      document.getElementById('dogPhoto').alt = t.photoAlt;
+      document.getElementById('formSubject').value = t.subject;
+
+      document.querySelectorAll('[data-i18n]').forEach(function(el){
+        var key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+        var key = el.getAttribute('data-i18n-placeholder');
+        if (t[key] !== undefined) el.placeholder = t[key];
+      });
+
+      var formOpen = document.getElementById('formEmbed').classList.contains('open');
+      document.getElementById('formToggleSub').textContent = formOpen ? t.formOpen : t.formClosed;
+
+      document.querySelectorAll('.lang-btn').forEach(function(btn){
+        var active = btn.getAttribute('data-lang') === lang;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+
+      try { localStorage.setItem('samLanguage', lang); } catch (e) {}
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        setLanguage(this.getAttribute('data-lang'));
+      });
+    });
+
+    // Le numéro est reconstruit au chargement pour créer le lien d'appel.
     (function(){
-      var encoded = "KzMzNzg2NzY0MjQx"; // 
-      var raw = atob(encoded); // 
-      var local = "0" + raw.slice(3); //
+      var encoded = "KzMzNzg2NzY0MjQx";
+      var raw = atob(encoded);
+      var local = "0" + raw.slice(3);
       var display = local.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
       var btn = document.getElementById('callBtn');
       btn.href = "tel:" + raw;
@@ -391,9 +532,9 @@ Merci beaucoup de vous être arrêté. Ma famille me cherche et doit sûrement �
     document.getElementById('toggleForm').addEventListener('click', function(){
       var embed = document.getElementById('formEmbed');
       var isOpen = embed.classList.toggle('open');
-      this.querySelector('.cta-sub').textContent = isOpen
-        ? 'Remplissez le formulaire ci-dessous'
-        : 'Je vous rappelle dès que possible';
+      document.getElementById('formToggleSub').textContent = isOpen
+        ? translations[currentLang].formOpen
+        : translations[currentLang].formClosed;
     });
 
     document.getElementById('contactForm').addEventListener('submit', function(e){
@@ -401,9 +542,10 @@ Merci beaucoup de vous être arrêté. Ma famille me cherche et doit sûrement �
       var form = e.target;
       var status = document.getElementById('formStatus');
       var button = form.querySelector('.submit-btn');
+      var t = translations[currentLang];
 
       button.disabled = true;
-      status.textContent = 'Envoi en cours…';
+      status.textContent = t.sending;
 
       fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -413,18 +555,23 @@ Merci beaucoup de vous être arrêté. Ma famille me cherche et doit sûrement �
       .then(function(res){ return res.json(); })
       .then(function(data){
         if (data.success) {
-          status.textContent = 'Merci ! Je vous recontacte très vite 🐾';
+          status.textContent = translations[currentLang].success;
           form.reset();
+          button.disabled = false;
         } else {
-          status.textContent = "Oups, réessayez ou contactez-moi directement.";
+          status.textContent = translations[currentLang].error;
           button.disabled = false;
         }
       })
       .catch(function(){
-        status.textContent = "Oups, réessayez ou contactez-moi directement.";
+        status.textContent = translations[currentLang].error;
         button.disabled = false;
       });
     });
+
+    var savedLang = null;
+    try { savedLang = localStorage.getItem('samLanguage'); } catch (e) {}
+    setLanguage(savedLang === 'en' ? 'en' : 'fr');
   </script>
 
 </body>
