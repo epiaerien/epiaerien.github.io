@@ -174,22 +174,84 @@
   .form-embed{
     max-height:0;
     overflow:hidden;
-    border-radius:14px;
-    transition:max-height 0.3s ease, margin-top 0.3s ease;
+    transition:max-height 0.4s ease, margin-top 0.3s ease;
   }
 
   .form-embed.open{
-    max-height:520px;
-    margin-top:16px;
+    max-height:600px;
+    margin-top:18px;
   }
 
-  .form-embed iframe{
+  .mini-form{
+    text-align:left;
+    background:var(--paper);
+    border:1.5px solid var(--line);
+    border-radius:16px;
+    padding:18px;
+  }
+
+  .field{
+    display:block;
+    margin-bottom:14px;
+  }
+
+  .field span{
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--forest-dark);
+    margin-bottom:5px;
+  }
+
+  .field input,
+  .field textarea{
+    width:100%;
+    padding:11px 12px;
+    font-size:15px;
+    font-family:inherit;
+    color:var(--ink);
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    resize:none;
+  }
+
+  .field input:focus,
+  .field textarea:focus{
+    outline:none;
+    border-color:var(--brass);
+  }
+
+  .submit-btn{
     display:block;
     width:100%;
-    height:500px;
-    border:1.5px solid var(--line);
-    border-radius:14px;
-    background:var(--card);
+    padding:13px 20px;
+    background:var(--forest);
+    color:#FFFAFA;
+    font-weight:600;
+    font-size:15px;
+    font-family:inherit;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:transform 0.15s ease;
+  }
+
+  .submit-btn:active{
+    transform:scale(0.98);
+  }
+
+  .submit-btn:disabled{
+    opacity:0.6;
+  }
+
+  .form-status{
+    font-size:13px;
+    text-align:center;
+    margin:10px 0 0;
+    min-height:16px;
+    color:var(--forest-dark);
+    font-weight:600;
   }
 
   .divider{
@@ -265,10 +327,14 @@
         au plus vite et venir me récupérer.
       </p>
 
-      <!-- Remplacer par le numéro masqué (appli type OnOff/Sonetel, ou SIM prépayée avec renvoi d'appel) -->
-      <a class="cta" href="tel:+33600000000">
-        Appeler maintenant
-        <span class="cta-sub">06 00 00 00 00</span>
+      <!-- Remplacer par ton lien de contact Signal (Paramètres → Profil → Nom d'utilisateur → obtenir le lien) -->
+      <a class="cta" href="https://signal.me/#eu/WeJwq9wACStwETGtTVeomDzjXsHrWHm7Clym9CKMwP1vToIT0BJAfaulC0uOW8OC" target="_blank" rel="noopener">
+        Écrire sur Signal
+        <span class="cta-sub">Réponse rapide, numéro jamais visible</span>
+      </a>
+
+      <a class="cta-secondary" href="#" id="callBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;">
+        Appeler — <span id="callNumber">••••••••••</span>
       </a>
 
       <div class="divider"><span>ou</span></div>
@@ -278,21 +344,30 @@
         <span class="cta-sub">Je vous rappelle dès que possible</span>
       </button>
 
-      <!--
-        Pour obtenir l'URL d'intégration :
-        Dans Google Forms → bouton "Envoyer" → onglet <> (intégrer)
-        → copier l'URL présente dans le code (celle qui finit par "?embedded=true")
-        et la coller ci-dessous dans src="..."
-      -->
+      <!-- Clé Web3Forms : va sur web3forms.com → "Get Access Key" → colle-la ci-dessous -->
       <div class="form-embed" id="formEmbed">
-        <iframe
-          src="https://docs.google.com/forms/d/e/1FAIpQLSfDE61BxISmNDKzykHG96HJwkgYYacCWsjW9ni1-aY7he6NwA/viewform?embedded=true"
-          width="100%"
-          frameborder="0"
-          marginheight="0"
-          marginwidth="0">
-          Chargement…
-        </iframe>
+        <form id="contactForm" class="mini-form">
+          <input type="hidden" name="access_key" value="VOTRE-CLE-WEB3FORMS">
+          <input type="hidden" name="subject" value="Quelqu'un a retrouvé Sam !">
+
+          <label class="field">
+            <span>Votre prénom</span>
+            <input type="text" name="name" required placeholder="Ex. Camille">
+          </label>
+
+          <label class="field">
+            <span>Votre numéro de téléphone</span>
+            <input type="tel" name="phone" required placeholder="06 12 34 56 78">
+          </label>
+
+          <label class="field">
+            <span>Message (optionnel)</span>
+            <textarea name="message" rows="2" placeholder="Où l'avez-vous trouvée ?"></textarea>
+          </label>
+
+          <button type="submit" class="submit-btn">Envoyer</button>
+          <p class="form-status" id="formStatus"></p>
+        </form>
       </div>
     </div>
 
@@ -303,12 +378,53 @@
   </div>
 
   <script>
+    // Le numéro n'apparaît jamais en clair dans le code source (encodé en base64),
+    // il n'est reconstruit qu'au moment où la page s'affiche dans le navigateur.
+    (function(){
+      var encoded = "KzMzNjc2NTQzOTE0"; // "+33676543914" encodé
+      var raw = atob(encoded); // "+33676543914"
+      var display = "0" + raw.slice(3).replace(/(\d{2})(?=\d)/g, "$1 ").trim();
+      var btn = document.getElementById('callBtn');
+      btn.href = "tel:" + raw;
+      document.getElementById('callNumber').textContent = display;
+    })();
+
     document.getElementById('toggleForm').addEventListener('click', function(){
       var embed = document.getElementById('formEmbed');
       var isOpen = embed.classList.toggle('open');
       this.querySelector('.cta-sub').textContent = isOpen
         ? 'Remplissez le formulaire ci-dessous'
         : 'Je vous rappelle dès que possible';
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      var form = e.target;
+      var status = document.getElementById('formStatus');
+      var button = form.querySelector('.submit-btn');
+
+      button.disabled = true;
+      status.textContent = 'Envoi en cours…';
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (data.success) {
+          status.textContent = 'Merci ! Je vous recontacte très vite 🐾';
+          form.reset();
+        } else {
+          status.textContent = "Oups, réessayez ou contactez-moi directement.";
+          button.disabled = false;
+        }
+      })
+      .catch(function(){
+        status.textContent = "Oups, réessayez ou contactez-moi directement.";
+        button.disabled = false;
+      });
     });
   </script>
 
